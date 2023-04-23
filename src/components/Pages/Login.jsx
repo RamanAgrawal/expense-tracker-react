@@ -35,7 +35,7 @@ export default function Login() {
             const token=res._tokenResponse.idToken
             dispatch(login(token))
             setAlert('login success')
-            history('/dummy')
+            history('/')
         } catch (error) {
             setAlert('login faild')
             console.log(error);
