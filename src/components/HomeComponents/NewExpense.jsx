@@ -19,9 +19,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 
 export default function NewExpense() {
+  const amountRef = useRef(0)
   const [category, setCategory] = useState('food')
   const [date, setDate] = useState(dayjs('2023-04-21'))
-  const amountRef = useRef(0)
   const expenseDesRef = useRef('')
   const dispatch = useDispatch();
   const { addExpense } = ExpenseAction
