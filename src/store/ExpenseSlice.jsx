@@ -23,6 +23,10 @@ const ExpenseSlice = createSlice({
       const updateExpense=state.expenses[findExpenseIndex]
       state.expenses[findExpenseIndex]=action.payload
       state.totalExpenses+= +action.payload.amount-(+updateExpense.amount)
+    },
+    changeData:(state,action)=>{
+      state.expenses=action.payload.expense
+      state.totalExpenses=action.payload.totalExpense
     }
   }
 });

@@ -33,6 +33,7 @@ export default function Login() {
         try {
             const res =await signInWithEmailAndPassword(auth,email,password)
             const token=res._tokenResponse.idToken
+            localStorage.setItem('email',`${auth.currentUser.email}`)
             dispatch(login(token))
             setAlert('login success')
             history('/')

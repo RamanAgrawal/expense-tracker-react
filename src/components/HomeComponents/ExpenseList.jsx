@@ -10,6 +10,7 @@ import TableRow from '@mui/material/TableRow';
 import { Box, Button } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { ExpenseAction } from '../../store/ExpenseSlice'
+import ConnectDatabase from '../../store/ConnectDatabase';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -39,6 +40,10 @@ export default function ExpenseList() {
   const {removeExpense,editExpense}=ExpenseAction
   const expenses=useSelector(state=>state.expense.expenses)
   const totalExpense=useSelector(state=>state.expense.totalExpenses)
+  React.useEffect(()=>{
+     ConnectDatabase(expenses,totalExpense)
+  },[expenses,totalExpense])
+  
   console.log(expenses);
   const dispatch=useDispatch()
   const rows = expenses
