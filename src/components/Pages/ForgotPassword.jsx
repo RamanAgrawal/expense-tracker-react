@@ -1,10 +1,10 @@
+
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -12,39 +12,35 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import auth from '../../firebase';
-import { useDispatch } from 'react-redux';
-import {authActions} from '../../store/AuthSlice'
-import { Alert } from '@mui/material';
-import {useNavigate} from 'react-router-dom'
-const theme = createTheme();
 
-export default function Login() {
-    const dispatch=useDispatch()
-    const {login}=authActions
-    const [alert,setAlert]=React.useState(null)
-    const history=useNavigate()
+import auth from '../../firebase';
+
+
+// import { Alert } from '@mui/material';
+import { sendPasswordResetEmail } from 'firebase/auth';
+
+const theme = createTheme();
+const ForgotPassword = () => {
+
     const handleSubmit = async(event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         const email = data.get('email')
-        const password = data.get('password')
+       
         try {
-            const res =await signInWithEmailAndPassword(auth,email,password)
-            const token=res._tokenResponse.idToken
-            dispatch(login(token))
-            setAlert('login success')
-            history('/')
+    await sendPasswordResetEmail(auth,email)
+          
+           alert('sucsess')
+           
+           
         } catch (error) {
-            setAlert('login faild')
-            console.log(error);
+           
+            console.log(error.message);
         }
 
     };
-
-    return (
-        <ThemeProvider theme={theme}>
+  return (
+    <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <Box
@@ -59,9 +55,9 @@ export default function Login() {
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Sign in
+                       Enter Email
                     </Typography>
-                    {alert&&<Alert severity="warning">{alert}</Alert>}
+                    {/* {alert&&<Alert severity="warning">{alert}</Alert>} */}
                     <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
                         <TextField
                             margin="normal"
@@ -73,44 +69,30 @@ export default function Login() {
                             autoComplete="email"
                             autoFocus
                         />
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="password"
-                            label="Password"
-                            type="password"
-                            id="password"
-                            autoComplete="current-password"
-                        />
-                        <FormControlLabel
-                            control={<Checkbox value="remember" color="primary" />}
-                            label="Remember me"
-                        />
+                        
+                    
                         <Button
                             type="submit"
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
                         >
-                            Sign In
+                            Send Email
                         </Button>
                         <Grid container>
                             <Grid item xs>
-                                <Link href="/forgotpassword" variant="body2">
-                                    Forgot password?
+                                <Link href="/signin" variant="body2">
+                                    Go to login page
                                 </Link>
                             </Grid>
-                            <Grid item>
-                                <Link href="/signup" variant="body2">
-                                    {"Don't have an account? Sign Up"}
-                                </Link>
-                            </Grid>
+                            
                         </Grid>
                     </Box>
                 </Box>
 
             </Container>
         </ThemeProvider>
-    );
+  )
 }
+
+export default ForgotPassword
