@@ -1,7 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-showForm:false
+showForm:false,
+editExpense:{},
+
 }
 
 const FormSlice = createSlice({
@@ -13,7 +15,11 @@ const FormSlice = createSlice({
     },
     closeForm:(state)=>{
         state.showForm=false
+    },
+    setEditValue:(state,action)=>{
+      state.editExpense=action.payload
     }
+    
   }
 });
 

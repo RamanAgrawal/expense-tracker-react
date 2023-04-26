@@ -7,10 +7,11 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 // import Paper from '@mui/material/Paper';
-import { Box, Button } from '@mui/material';
+import {  Button, Paper } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { ExpenseAction } from '../../store/ExpenseSlice'
 import ConnectDatabase from '../../store/ConnectDatabase';
+import { FormActions } from '../../store/FormSlice';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -36,32 +37,36 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 
 
+let render=false;
 export default function ExpenseList() {
-  const {removeExpense,editExpense}=ExpenseAction
+  const {removeExpense}=ExpenseAction
+  const {setEditValue,openForm}=FormActions
   const expenses=useSelector(state=>state.expense.expenses)
   const totalExpense=useSelector(state=>state.expense.totalExpenses)
+  const premium=useSelector(state=>state.auth.premium)
   React.useEffect(()=>{
-     ConnectDatabase(expenses,totalExpense)
-  },[expenses,totalExpense])
+    if(render){
+
+      ConnectDatabase(expenses,totalExpense,premium)
+    }else{
+      render=true;
+    }
+  },[expenses,totalExpense,premium])
   
-  console.log(expenses);
+  
   const dispatch=useDispatch()
   const rows = expenses
   const deleteHandler=(id)=>{
     dispatch(removeExpense(id))
   }
   const editHandler=(item)=>{
-    dispatch(editExpense({
-      id:item.id,
-    description:'fdfdsfsdf',
-    category:'other',
-    amount:90,
-    date:'12-1-2002'
-  }))
+    dispatch(setEditValue(item))
+    dispatch(openForm())
+  
   }
 
   return (
-    <TableContainer sm={{maxWidth:'md'}} maxWidth='md' sx={{marginInline:'auto'}} component={Box}>
+    <TableContainer sm={{maxWidth:'md'}} sx={{marginInline:'auto'}} component={Paper}>
       <Table sx={{ minWidth: 500 }} sm={{maxWidth:100}} aria-label="customized table">
         <TableHead>
           <TableRow>

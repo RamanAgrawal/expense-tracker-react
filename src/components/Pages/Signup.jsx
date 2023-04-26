@@ -10,7 +10,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import auth from '../../firebase';
 import { Alert } from '@mui/material';
 import { useDispatch } from 'react-redux';
@@ -30,16 +30,20 @@ export default function SignUp() {
         const email = data.get('email')
         const password = data.get('password')
         const confirmPassword = data.get('confirmpassword')
+        const fullName=data.get('firstName')+" "+data.get('lastName')
 
         try {
             if (password === confirmPassword) {
 
                 const res = await createUserWithEmailAndPassword(auth, email, password)
+                const user = auth.currentUser;
+                await updateProfile(user, { displayName: `${fullName}` })
                const token=res._tokenResponse.idToken
+               localStorage.setItem('email',`${auth.currentUser.email}`)
                 dispatch(login(token))
                 console.log('fdf');
                 setError('sucsess')
-                history('/signin')
+                history('/')
 
             }else{
                 setError('password not matched')

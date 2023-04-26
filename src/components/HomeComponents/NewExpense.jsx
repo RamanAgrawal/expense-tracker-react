@@ -11,7 +11,7 @@ import dayjs from 'dayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { useRef } from 'react';
+
 import { ExpenseAction } from '../../store/ExpenseSlice';
 import { FormActions } from '../../store/FormSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,104 +19,125 @@ import { useDispatch, useSelector } from 'react-redux';
 
 
 export default function NewExpense() {
-  const amountRef = useRef(0)
+
+  const [amount, setAmount] = useState(0)
+  const [description, setDescription] = useState('')
   const [category, setCategory] = useState('food')
   const [date, setDate] = useState(dayjs('2023-04-21'))
-  const expenseDesRef = useRef('')
+  const [id, setId] = useState(Math.random().toString())
+
   const dispatch = useDispatch();
   const { addExpense } = ExpenseAction
-  const { openForm, closeForm } = FormActions
+  const { closeForm, setEditValue } = FormActions
   const showForm = useSelector(state => state.expenseForm.showForm)
+  const editExpense = useSelector(state => state.expenseForm.editExpense)
+
 
   const handleCategoryChange = (e) => {
     setCategory(e.target.value)
   }
-
-  // const [open, setOpen] = useState(false);
-  const handleClickOpen = () => {
-    dispatch(openForm())
+  const handleAmountChange = (e) => {
+    setAmount(e.target.value)
   }
+  const handleDesChange = (e) => {
+    setDescription(e.target.value)
+  }
+
+
+
   const handleClose = () => {
     dispatch(closeForm())
   };
 
+  const editHandler = (expense) => {
+    console.table(expense)
+    setId(expense.id)
+    setAmount(expense.amount)
+    setDescription(expense.description)
+    setCategory(expense.category)
+    setDate(dayjs(expense.date))
+    dispatch(setEditValue({}))
+  }
+
+  if (Object.keys(editExpense).length) {
+    editHandler(editExpense)
+
+  }
   const submitHandler = (e) => {
     e.preventDefault()
     const expense = {
-      id: Math.random().toString(),
-      description: expenseDesRef.current.value,
-      amount: amountRef.current.value,
+      id: id,
+      description: description,
+      amount: amount,
       category: category,
       date: date.toString()
     }
 
     dispatch(addExpense(expense))
-
-    e.target.parentElement.parentElement.reset()
-  }
-  // const editHandler = (expense) => {
-  //   expenseDesRef.current.value=expense.description
-  //   amountRef.current.value=expense.amount
-  // }
+    
+    setAmount(0)
+    setDescription('')
   
+    
+  }
+
+
   return (
-    <div style={{ marginTop: '100px' }}>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Open form dialog
-      </Button>
 
-      <Dialog open={showForm} onClose={handleClose} maxWidth='md' fullWidth sx={{
-        position: 'relative',
-        top: '-100px'
-      }}>
-        <form onSubmit={submitHandler}>
-          <DialogTitle>Add Expense</DialogTitle>
-          <Divider />
-          <DialogContent>
-            <Grid container gap={4}>
-              <Grid item md={4} xs={12}>
-                <TextField id="outlined-basic" inputRef={expenseDesRef} label="Description" variant="outlined" fullWidth />
-              </Grid>
-              <Grid item md={4} xs={12}>
-                <TextField required id="outlined-basic" inputRef={amountRef} label="Expense" type='number' variant="outlined" fullWidth />
-              </Grid>
-              <Grid item xs={12} md={3}>
-                <FormControl fullWidth>
-                  <InputLabel id="demo-simple-select-label">Category</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={category}
-                    label="Category"
-                    onChange={handleCategoryChange}
-                  >
-                    <MenuItem value={'food'} selected>Food</MenuItem>
-                    <MenuItem value={'clothes'}>Clothes</MenuItem>
-                    <MenuItem value={'electronics'}>Electronics</MenuItem>
-                    <MenuItem value={'others'}>Others</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
 
+    <Dialog style={{ position: 'fixed' }} open={showForm} onClose={handleClose} maxWidth='md' fullWidth sx={{
+      position: 'relative',
+      top: '-100px'
+    }}>
+      <form onSubmit={submitHandler}>
+        <DialogTitle>Add Expense</DialogTitle>
+        <Divider />
+        <DialogContent>
+          <Grid container gap={4}>
+            <Grid item md={4} xs={12}>
+              <TextField id="outlined-basic" value={description} onChange={handleDesChange} label="Description" variant="outlined" fullWidth />
             </Grid>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DemoContainer components={['DatePicker', 'DatePicker']}>
+            <Grid item md={4} xs={12}>
+              <TextField required id="outlined-basic" value={amount} onChange={handleAmountChange} label="Expense" type='number' variant="outlined" fullWidth />
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Category</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={category}
+                  label="Category"
+                  onChange={handleCategoryChange}
+                >
+                  <MenuItem value={'food'} selected>Food</MenuItem>
+                  <MenuItem value={'clothes'}>Clothes</MenuItem>
+                  <MenuItem value={'electronics'}>Electronics</MenuItem>
+                  <MenuItem value={'others'}>Others</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
 
-                <DatePicker
-                  label="Controlled picker"
-                  value={date}
-                  onChange={(newValue) => setDate(newValue)}
-                />
-              </DemoContainer>
-            </LocalizationProvider>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button type='submit' onClick={submitHandler} >Add</Button>
-          </DialogActions>
-        </form>
-      </Dialog>
-    </div >
+          </Grid>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DemoContainer components={['DatePicker', 'DatePicker']}>
+
+              <DatePicker
+                label="Controlled picker"
+                value={date}
+                onChange={(newValue) => setDate(newValue)}
+              />
+            </DemoContainer>
+          </LocalizationProvider>
+        </DialogContent>
+        <DialogActions>
+
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button type='submit' onClick={submitHandler} >Add</Button>
+        </DialogActions>
+      </form>
+    </Dialog>
+
   );
 }
 // export editHandler
