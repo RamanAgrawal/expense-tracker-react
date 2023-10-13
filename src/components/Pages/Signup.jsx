@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React ,{useState} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -21,7 +21,7 @@ import CloseIcon from '@mui/icons-material/Close';
 const theme = createTheme();
 
 export default function SignUp() {
-    const [error, setError] = React.useState(false)
+    const [error, setError] = useState(false)
     const dispatch=useDispatch()
     const {login}=authActions
     const history=useNavigate()
