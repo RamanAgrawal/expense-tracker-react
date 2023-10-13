@@ -42,7 +42,7 @@ function App() {
     GetDataFromDataBase()
   }
   
-  }, [isLoggedIn, changeData, dispatch,activatePremium])
+  }, [changeData, dispatch,activatePremium])
   const showForm=useSelector(state=>state.expenseForm.showForm)
   return (<div style={{backgroundColor:''}}>
     {showForm&&ReactDOM.createPortal(<NewExpense/>,document.getElementById('add-expense'))}
