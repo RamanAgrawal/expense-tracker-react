@@ -20,7 +20,7 @@ function App() {
   const { activatePremium } = authActions
   const history=useNavigate()
   useEffect(() => {
-    !isLoggedIn&&history('/signin')
+    !isLoggedIn&&history('/signup')
     const useremail = localStorage.getItem('email')
    if(useremail){
     const user = useremail.replace('@', "").replace('.', "")
