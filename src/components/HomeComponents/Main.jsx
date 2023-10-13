@@ -32,10 +32,10 @@ const Main = () => {
     }
     return (<Fragment>
       
-        <Container maxWidth={'lg'} fullWidth sx={{
+        <Container maxWidth={'lg'}  sx={{
             marginY: '5rem'
         }}>
-            <Grid container fullWidth gap={4}>
+            <Grid container  gap={4}>
 
                 <Grid item xs={12} md={3.6} >
                     <Card border={'GrayText'} sx={{

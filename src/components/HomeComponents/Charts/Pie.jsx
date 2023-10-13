@@ -1,91 +1,68 @@
-import {Chart,ArcElement,Tooltip,Legend} from 'chart.js'
-import {  Line, Pie } from "react-chartjs-2";
-
+import { Chart as ChartJs, ArcElement, Tooltip, Legend } from 'chart.js'
+import { Pie } from "react-chartjs-2";
+import { useSelector } from 'react-redux';
 import React from 'react'
+import { Card } from '@mui/material';
 
-Chart.register(
-  ArcElement,Tooltip,Legend
+ChartJs.register(
+  ArcElement, Tooltip, Legend
 )
 
 const Piee = () => {
-    const data = {
-        labels: [
-          "01/01/2019",
-          "02/01/2019",
-          "03/01/2019",
-          "04/01/2019",
-          "05/01/2019",
-          "06/01/2019",
-          "07/01/2019"
-        ],
-        //backgroundColor: ['rgba(255,0,0,1)'],
-        //lineTension: 1,
-        datasets: [
-          {
-            label: "HSN",
-            fill: false,
-            borderColor: "rgba(255, 0, 0, 0.3)",
-            borderWidth: 1,
-            pointRadius: 2,
-            data: [65, 59, 80, 81, 56, 55, 40]
-          },
-          {
-            label: "CPX",
-            fill: false,
-            borderColor: "rgba(0, 255, 0, 0.3)",
-            borderWidth: 1,
-            pointRadius: 2,
-            data: [70, 32, 45, 65, 87, 92, 99]
-          },
-          {
-            label: "Total",
-            fill: false,
-            borderColor: "blue",
-            borderWidth: 2,
-            pointRadius: 2,
-            data: [135, 91, 125, 144, 143, 143, 139]
-          }
-        ]
-      };
-    
-      var options = {
-        legend: {
-          position: "right",
-          labels: {
-            boxWidth: 10
-          }
-        },
-        scales: {
-          xAxes: [
-            {
-              ticks: { display: false }
-            }
-          ]
-        }
-      };
-    
-    const pieData = {
-        labels: [
-            'Red',
-            'Blue',
-            'Yellow'
-        ],
-        datasets: [{
-            data: [300, 50, 100],
-            backgroundColor: [
-            'rgba(255,0,0, 1)',
-            '#36A2EB',
-            '#FFCE56'
-            ]
-        }]
-    };
-    
-      return (
-        <div className="App main">
-          <Line data={data} options={options} />
-          <Pie data={pieData} options={options} />
-        </div>
-      );
+  const expenseData = useSelector(state => state.expense.expenses)
+  const total = useSelector(state => state.expense.totalExpenses)
+  console.log(total);
+  const food = expenseData.filter(item => item.category === 'food')
+  const others = expenseData.filter(item => item.category === 'others')
+  const electronics = expenseData.filter(item => item.category === 'electronics')
+  const clothes = expenseData.filter(item => item.category === 'clothes')
+
+  const calculate = (arr) => {
+    let sum = 0
+    let num = arr.map(item => Number(item.amount))
+    for (let i = 0; i < num.length; i++) {
+      sum += num[i]
     }
+    return sum
+  }
+  // const foodTotal=
+  const expense = [calculate(food), calculate(others), calculate(electronics), calculate(clothes)];
+
+
+  var options = {
+    legend: {
+      position: "right",
+      labels: {
+        boxWidth: 10
+      }
+    },
+
+  };
+
+  const pieData = {
+    labels: [
+      'Food',
+      'Others',
+      'Electronics',
+      'Cloths'
+    ],
+    datasets: [{
+      data: expense,
+      backgroundColor: [
+        'rgba(255,0,0, 1)',
+        '#36A2EB',
+        '#FFCE56',
+        'blue'
+      ]
+    }]
+  };
+
+  return (
+    <Card sx={{ maxWidth: '20rem' }}>
+      {/* <Line data={data} options={options} /> */}
+      <Pie data={pieData} options={options} color='invert' />
+    </Card>
+  );
+}
 
 export default Piee

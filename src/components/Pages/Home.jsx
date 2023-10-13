@@ -16,7 +16,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import Profile from '../HomeComponents/Profile';
-import { Container } from '@mui/material';
+import { Container, Grid } from '@mui/material';
 import Piee from '../HomeComponents/Charts/Pie';
 
 const drawerWidth = 290;
@@ -68,9 +68,9 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 export default function Home() {
-  const premium=useSelector(state=>state.auth.premium)
-  const dark=useSelector(state=>state.darkMode.dark)
-  
+  const premium = useSelector(state => state.auth.premium)
+  const dark = useSelector(state => state.darkMode.dark)
+
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -83,67 +83,76 @@ export default function Home() {
   };
   const darkTheme = createTheme({
     palette: {
-      mode: dark?'dark':'light',
+      mode: dark&&premium ? 'dark' : 'light',
     },
   });
 
   return (
     <ThemeProvider theme={darkTheme}>
-    <Container sx={{ display: 'flex' }} maxWidth='lg' background fullWidth >
-      <CssBaseline />
-      <AppBar  sx={{
-        top:'0',
-        right:'0',
-        left:'0',
-      }} >
-        <Toolbar>
-          <Typography variant="h4" noWrap sx={{flexGrow:'1'}} component="div">
-           Expense Tracker
-          </Typography>
-          {premium&&<Switch/>}
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="end"
-            
-            onClick={handleDrawerOpen}
-            sx={{ ...(open && { display: 'none' }) }}
-          >
-            <AccountCircleIcon sx={{fontSize:'3rem'}}/>
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-      <Main open={open}>
-        {/* <DrawerHeader /> */}
-        {/* {showForm&&<NewExpense/>} */}
-        <MainGrid/>
-        {/* <Piee/> */}
-        <ExpenseList/>
-      </Main>
-      <Drawer
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
+      <Container sx={{ display: 'flex' }} maxWidth='lg'  >
+        <CssBaseline />
+        <AppBar sx={{
+          top: '0',
+          right: '0',
+          left: '0',
+        }} >
+          <Toolbar>
+            <Typography variant="h4" noWrap sx={{ flexGrow: '1' }} component="div">
+              Expense Tracker
+            </Typography>
+            {premium && <Switch />}
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="end"
+
+              onClick={handleDrawerOpen}
+              sx={{ ...(open && { display: 'none' }) }}
+            >
+              <AccountCircleIcon sx={{ fontSize: '3rem' }} />
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+        <Main open={open}>
+          {/* <DrawerHeader /> */}
+          {/* {showForm&&<NewExpense/>} */}
+          <MainGrid />
+          <Grid container gap={1}>
+
+            <Grid item sx={7}>
+              <ExpenseList />
+            </Grid>
+            <Grid item sx={4}>
+              <Piee />
+            </Grid>
+          </Grid>
+
+
+        </Main>
+        <Drawer
+          sx={{
             width: drawerWidth,
-            position:'fixed',
-            
-          },
-        }}
-        variant="persistent"
-        anchor="right"
-        open={open}
-      >
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-          </IconButton>
-        </DrawerHeader>
-        <Divider />
-        
-          {open&&<Profile/>}
-      </Drawer>
-    </Container>
-    </ThemeProvider>  
+            flexShrink: 0,
+            '& .MuiDrawer-paper': {
+              width: drawerWidth,
+              position: 'fixed',
+
+            },
+          }}
+          variant="persistent"
+          anchor="right"
+          open={open}
+        >
+          <DrawerHeader>
+            <IconButton onClick={handleDrawerClose}>
+              {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+            </IconButton>
+          </DrawerHeader>
+          <Divider />
+
+          {open && <Profile />}
+        </Drawer>
+      </Container>
+    </ThemeProvider>
   );
 }

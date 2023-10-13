@@ -66,7 +66,7 @@ export default function ExpenseList() {
   }
 
   return (
-    <TableContainer sm={{maxWidth:'md'}} sx={{marginInline:'auto'}} component={Paper}>
+    <TableContainer sm={{maxWidth:'sm'}} sx={{marginInline:'auto'}} component={Paper}>
       <Table sx={{ minWidth: 500 }} sm={{maxWidth:100}} aria-label="customized table">
         <TableHead>
           <TableRow>

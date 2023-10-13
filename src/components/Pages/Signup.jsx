@@ -12,18 +12,20 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import auth from '../../firebase';
-import { Alert } from '@mui/material';
+import { Alert, IconButton } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { authActions } from '../../store/AuthSlice';
 import { useNavigate } from 'react-router-dom';
+import CloseIcon from '@mui/icons-material/Close';
 
 const theme = createTheme();
 
 export default function SignUp() {
-    const [error, setError] = React.useState(null)
+    const [error, setError] = React.useState(false)
     const dispatch=useDispatch()
     const {login}=authActions
     const history=useNavigate()
+    
     const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -38,8 +40,8 @@ export default function SignUp() {
                 const res = await createUserWithEmailAndPassword(auth, email, password)
                 const user = auth.currentUser;
                 await updateProfile(user, { displayName: `${fullName}` })
-               const token=res._tokenResponse.idToken
-               localStorage.setItem('email',`${auth.currentUser.email}`)
+                const token=res._tokenResponse.idToken
+                localStorage.setItem('email',`${auth.currentUser.email}`)
                 dispatch(login(token))
                 console.log('fdf');
                 setError('sucsess')
@@ -52,6 +54,7 @@ export default function SignUp() {
         } catch (error) {
 
             console.log(error);
+            setError(true)
            
         }
         // setError(null)
@@ -59,6 +62,23 @@ export default function SignUp() {
 
     return (
         <ThemeProvider theme={theme}>
+           {error&& <Alert severity="warning"
+          action={
+            <IconButton
+              aria-label="close"
+              color="red"
+              size="small"
+              onClick={() => {
+                setError(false);
+              }}
+            >
+              <CloseIcon fontSize="inherit" />
+            </IconButton>
+          }
+          sx={{ mb: 2 }}
+        >
+          faild to signup
+        </Alert>}
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <Box

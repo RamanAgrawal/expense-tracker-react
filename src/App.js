@@ -3,7 +3,7 @@ import './App.css';
 import Home from './components/Pages/Home';
 import Login from './components/Pages/Login';
 import SignUp from './components/Pages/Signup';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import ForgotPassword from './components/Pages/ForgotPassword'
 import React, {  useEffect } from 'react';
@@ -12,13 +12,15 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import { authActions } from './store/AuthSlice';
 import NewExpense from './components/HomeComponents/NewExpense';
-;
+
 function App() {
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
   const dispatch = useDispatch()
   const { changeData } = ExpenseAction
   const { activatePremium } = authActions
+  const history=useNavigate()
   useEffect(() => {
+    !isLoggedIn&&history('/signup')
     const useremail = localStorage.getItem('email')
    if(useremail){
     const user = useremail.replace('@', "").replace('.', "")
@@ -30,7 +32,7 @@ function App() {
         if (res.data.expense) {
           dispatch(changeData(res.data))
         }
-        console.log(res.data.premium);
+     
           dispatch(activatePremium(res.data.premium))
       
       } catch (error) {
