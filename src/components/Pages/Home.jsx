@@ -73,6 +73,13 @@ export default function Home() {
   const dark = useSelector(state => state.darkMode.dark)
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
   const history=useNavigate()
+  React.useEffect(()=>{
+
+    if(!isLoggedIn){
+      history('/signup');
+    }
+    return
+  },[isLoggedIn,history])
 
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -89,14 +96,12 @@ export default function Home() {
       mode: dark&&premium ? 'dark' : 'light',
     },
   });
-  if(!isLoggedIn){
-    history('/signup');
-    return
-  }
+
 
   return (
+    
     <ThemeProvider theme={darkTheme}>
-      <Container sx={{ display: 'flex' }} maxWidth='lg'  >
+      {isLoggedIn&&<Container sx={{ display: 'flex' }} maxWidth='lg'  >
         <CssBaseline />
         <AppBar sx={{
           top: '0',
@@ -160,6 +165,7 @@ export default function Home() {
           {open && <Profile />}
         </Drawer>
       </Container>
+      }
     </ThemeProvider>
   );
 }

@@ -44,7 +44,7 @@ function App() {
   return (<div style={{backgroundColor:''}}>
     {showForm&&ReactDOM.createPortal(<NewExpense/>,document.getElementById('add-expense'))}
     <Routes>
-      <Route path='/' element={<Home />} />
+      <Route path='/' element={<Home/>} />
       <Route path='/signup' element={<SignUp />} />
       <Route path='/signin' element={<Login />} />
       <Route path='/forgotpassword' element={<ForgotPassword />} />
