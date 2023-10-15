@@ -18,6 +18,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import Profile from '../HomeComponents/Profile';
 import { Container, Grid } from '@mui/material';
 import Piee from '../HomeComponents/Charts/Pie';
+import { useNavigate } from 'react-router-dom';
 
 const drawerWidth = 290;
 // const showForm=useSelector(state=>state.expenseForm.showForm)
@@ -70,6 +71,8 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 export default function Home() {
   const premium = useSelector(state => state.auth.premium)
   const dark = useSelector(state => state.darkMode.dark)
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
+  const history=useNavigate()
 
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -86,6 +89,9 @@ export default function Home() {
       mode: dark&&premium ? 'dark' : 'light',
     },
   });
+  if(!isLoggedIn){
+   return history('/signup')
+  }
 
   return (
     <ThemeProvider theme={darkTheme}>

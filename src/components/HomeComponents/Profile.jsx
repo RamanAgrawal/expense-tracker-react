@@ -27,7 +27,7 @@ export default function Profile() {
 
             alert('verifiacation email sent')
         } catch (error) {
-            alert('nhi gya bhau')
+            alert('faild to send email')
         }
 
     }

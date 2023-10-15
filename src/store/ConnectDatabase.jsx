@@ -7,6 +7,7 @@ const ConnectDatabase = async (items, totalExpense, premium) => {
     // const user = 'raman'
     if (useremail) {
         const user = useremail.replace('@', "").replace('.', "")
+        console.log(user);
         
         try {
             await axios.put(`https://expense-tracker-b240a-default-rtdb.firebaseio.com/${user}.json`, {
@@ -15,9 +16,8 @@ const ConnectDatabase = async (items, totalExpense, premium) => {
                 premium: premium
             })
 
-            // console.log('success');
         } catch (error) {
-            console.log(error.message);
+            console.error(error.message);
         }
     }
 

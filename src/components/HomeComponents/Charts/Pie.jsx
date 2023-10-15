@@ -10,8 +10,7 @@ ChartJs.register(
 
 const Piee = () => {
   const expenseData = useSelector(state => state.expense.expenses)
-  const total = useSelector(state => state.expense.totalExpenses)
-  console.log(total);
+  // const total = useSelector(state => state.expense.totalExpenses)
   const food = expenseData.filter(item => item.category === 'food')
   const others = expenseData.filter(item => item.category === 'others')
   const electronics = expenseData.filter(item => item.category === 'electronics')

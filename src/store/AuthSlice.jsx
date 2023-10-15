@@ -24,7 +24,6 @@ const AuthSlice = createSlice({
         localStorage.removeItem('email')
     },
     activatePremium:(state,action)=>{
-      console.log(action.payload);
       state.premium=action.payload
       state.isEligible=false
     },

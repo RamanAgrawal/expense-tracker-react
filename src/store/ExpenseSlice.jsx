@@ -10,9 +10,7 @@ const ExpenseSlice = createSlice({
   initialState,
   reducers: {
     addExpense: (state, action) => {
-      console.log(action.payload.id)
       const findExpenseIndex = state.expenses.findIndex(item => item.id === action.payload.id)
-    
       const updateExpense = state.expenses[findExpenseIndex]
       
       if (updateExpense) {

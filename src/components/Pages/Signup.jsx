@@ -43,7 +43,6 @@ export default function SignUp() {
                 const token=res._tokenResponse.idToken
                 localStorage.setItem('email',`${auth.currentUser.email}`)
                 dispatch(login(token))
-                console.log('fdf');
                 setError('sucsess')
                 history('/')
 
