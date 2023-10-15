@@ -90,7 +90,8 @@ export default function Home() {
     },
   });
   if(!isLoggedIn){
-   return history('/signup')
+    history('/signup');
+    return
   }
 
   return (
