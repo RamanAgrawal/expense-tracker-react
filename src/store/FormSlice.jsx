@@ -1,28 +1,26 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-showForm:false,
-editExpense:{},
-
-}
+  showForm: false,
+  editExpense: {},
+};
 
 const FormSlice = createSlice({
-  name: 'expenseForm',
+  name: "expenseForm",
   initialState,
   reducers: {
-    openForm:(state)=>{
-        state.showForm=true
+    openForm: (state) => {
+      state.showForm = true;
     },
-    closeForm:(state)=>{
-        state.showForm=false
+    closeForm: (state) => {
+      state.showForm = false;
     },
-    setEditValue:(state,action)=>{
-      state.editExpense=action.payload
-    }
-    
-  }
+    setEditValue: (state, action) => {
+      state.editExpense = action.payload;
+    },
+  },
 });
 
-export const FormActions = FormSlice.actions
+export const FormActions = FormSlice.actions;
 
-export default FormSlice.reducer
+export default FormSlice.reducer;

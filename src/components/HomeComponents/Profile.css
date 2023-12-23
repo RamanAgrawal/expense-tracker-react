@@ -1,37 +1,36 @@
-.main{
-    min-height: 85vh;
-    box-shadow: 0px 0px 2px 1px rgb(212, 210, 210);
-    text-align: center;
-    margin-top: 4rem;    
-    width: 400px;
-    z-index: 10;
-    border-radius: 10px;
+.main {
+  min-height: 85vh;
+  box-shadow: 0px 0px 2px 1px rgb(212, 210, 210);
+  text-align: center;
+  margin-top: 4rem;
+  width: 400px;
+  z-index: 10;
+  border-radius: 10px;
 
-    float: right;
-    
+  float: right;
 }
-.logo{
-    height: 50px;
-    width: 50px;
-    overflow: hidden;
-    border: 1px solid black;
-    border-radius: 50%;
-    margin-top: 20px;
-    margin-inline: auto;
-    background-image: url('./logo.jpg');
-    background-size: contain;
+.logo {
+  height: 50px;
+  width: 50px;
+  overflow: hidden;
+  border: 1px solid black;
+  border-radius: 50%;
+  margin-top: 20px;
+  margin-inline: auto;
+  background-image: url("./logo.jpg");
+  background-size: contain;
 }
-.items{
-    margin: 5px;
-    border: 1px solid black;
-    padding: 20px;
-    box-shadow: 1px 1px 1px grey;
-    width: 100%;
+.items {
+  margin: 5px;
+  border: 1px solid black;
+  padding: 20px;
+  box-shadow: 1px 1px 1px grey;
+  width: 100%;
 }
-.items:hover{
-    background-color: rgb(202, 202, 202);
+.items:hover {
+  background-color: rgb(202, 202, 202);
 }
-.btn{
-    height: 100%;
-    width: 100%;
+.btn {
+  height: 100%;
+  width: 100%;
 }
