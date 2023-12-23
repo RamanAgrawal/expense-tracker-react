@@ -18,7 +18,6 @@ import { ExpenseAction } from "../../store/ExpenseSlice";
 export default function Profile() {
   const dispatch = useDispatch();
   const history = useNavigate();
-  const nameRef = React.useRef("");
   const [showUpdate, setShow] = React.useState(false);
   const { logout } = authActions;
   const { changeData } = ExpenseAction;
@@ -30,6 +29,7 @@ export default function Profile() {
   };
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const user = auth.currentUser;
+  const [name, setname] = React.useState(user?.displayName ? user.displayName : "")
   const verify = async () => {
     try {
       await sendEmailVerification(user);
@@ -40,9 +40,8 @@ export default function Profile() {
   };
   const updateProfileInfo = async (e) => {
     e.preventDefault();
-    await updateProfile(user, { displayName: `${nameRef.current.value}` });
+    await updateProfile(user, { displayName: name });
     setShow(false);
-    alert("updated");
   };
   return (
     <List>
@@ -71,9 +70,9 @@ export default function Profile() {
       {showUpdate && (
         <ListItem>
           <form onSubmit={updateProfileInfo}>
-            <label htmlFor="">name</label>
-            <input ref={nameRef} type="text"  />
-            <button type="submit">Edit Profile</button>
+            <label htmlFor="">Name</label>
+            <input className="input" onChange={(e)=>setname(e.target.value)} type="text"  value={name}/>
+            <button className="btn" type="submit">Edit Profile</button>
           </form>
         </ListItem>
       )}
