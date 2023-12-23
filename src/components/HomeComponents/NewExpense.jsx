@@ -79,6 +79,7 @@ export default function NewExpense() {
 
     setAmount(0);
     setDescription("");
+    dispatch(closeForm());
   };
 
   return (
